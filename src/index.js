@@ -3,6 +3,10 @@ const fileReader = new FileReader();
 
 export function readFromFileAsText(
   file,
+  {
+    splitBy = /[\r?\n]+/,
+    encoding = "UTF-8"
+  },
   dataCb,
   loadingProgressCb,
   finishedCb
@@ -16,7 +20,7 @@ export function readFromFileAsText(
   const readEventHandler = evt => {
     if (evt.target.error == null) {
       offset += evt.target.result.length;
-      const splitted = evt.target.result.split(/[\r?\n]+/);
+      const splitted = evt.target.result.split(splitBy);
 
       splitted[0] = lastUnhandledChunkPart.concat(splitted[0]);
       lastUnhandledChunkPart = splitted[splitted.length - 1];

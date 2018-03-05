@@ -1,0 +1,1 @@
+let splitRegex = /[\r?\n]+/;

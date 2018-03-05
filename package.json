@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/UnderNotic/readery/issues"
   },
-  "homepage": "https://github.com/UnderNotic/readery#readme"
+  "homepage": "https://github.com/UnderNotic/readery#readme",
+  "devDependencies": {
+    "testcafe": "^0.19.0"
+  }
 }
