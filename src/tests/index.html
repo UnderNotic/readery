@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <script src="../dist/readery-iife.js"></script>
+</head>
+
+<body>
+    <input type="file" id="file" name="file" />
+    <output id="file_output"></output>
+
+    <script>
+        function handleFileSelect(evt) {
+            var file = evt.target.files[0];
+
+            //readery call
+            document.getElementById('file_output').innerHTML = `readery function result`;
+        }
+        document.getElementById('filee').addEventListener('change', handleFileSelect, false);
+    </script>
+</body>
+
+</html>
