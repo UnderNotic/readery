@@ -35,20 +35,19 @@ class OffsetChunkReaderHandler {
   }
 
   readToEnd(file, dataCb, loadingProgressCb, finishedCb, config) {
-    const blob = file.slice(this.offset, chunkSize + this.offset);
-
     let i = 0;
     const load = () => {
       if (this.FILE_SIZE - i > chunkSize) {
         fileReader.onload = this.readNextChunk;
         fileReader.onloadend = load;
-        i += chunkSize
+        i += chunkSize;
       } else {
         fileReader.onload = this.readLastChunk;
         fileReader.onloadend = null;
       }
+      const blob = file.slice(this.offset, chunkSize + this.offset);
       fileReader.readAsText(blob);
-    }
+    };
     load();
   }
 
@@ -58,24 +57,23 @@ class OffsetChunkReaderHandler {
       this.dataCb(null, new Error(`Read error: ${evt.target.error}`));
       return;
     }
-    debugger;
     this.offset += evt.target.result.length;
     const splitted = this.lastUnhandledChunkPart
       .concat(evt.target.result)
       .split(this.config.splitBy);
 
     this.lastUnhandledChunkPart = splitted.pop();
-
+  
     splitted.forEach(d => {
-     this.dataCb(d);
+      this.dataCb(d);
     });
     this.loadingProgressCb(this.offset / this.FILE_SIZE * 100);
   }
 
   readLastChunk(evt) {
     const splitted = this.lastUnhandledChunkPart
-    .concat(evt.target.result)
-    .split(this.config.splitBy);
+      .concat(evt.target.result)
+      .split(this.config.splitBy);
 
     splitted.push(this.lastUnhandledChunkPart);
     splitted.forEach(d => this.dataCb(d));
