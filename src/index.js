@@ -1,53 +1,85 @@
-const chunkSize = 256 * 1024;
+const chunkSize = 10;
 const fileReader = new FileReader();
 
-export function readFromFileAsText(
+export function readFromFile(
   file,
-  {
-    splitBy = /[\r?\n]+/,
-    encoding = "UTF-8"
-  },
   dataCb,
-  loadingProgressCb,
-  finishedCb
+  loadingProgressCb = () => {},
+  finishedCb = () => {},
+  config = { splitBy: /[\r?\n]+/, encoding: "UTF-8" }
 ) {
   const fileSize = file.size;
-  let offset = 0;
-  let chunkReaderBlock = null;
+  const chunkReader = new OffsetChunkReaderHandler(
+    fileSize,
+    dataCb,
+    loadingProgressCb,
+    finishedCb,
+    config
+  );
+  chunkReader.readToEnd(file, dataCb, loadingProgressCb, finishedCb, config);
+}
 
-  let lastUnhandledChunkPart = "";
+class OffsetChunkReaderHandler {
+  constructor(fileSize, dataCb, loadingProgressCb, finishedCb, config) {
+    this.FILE_SIZE = fileSize;
+    this.offset = 0;
+    this.lastUnhandledChunkPart = "";
 
-  const readEventHandler = evt => {
-    if (evt.target.error == null) {
-      offset += evt.target.result.length;
-      const splitted = evt.target.result.split(splitBy);
+    this.dataCb = dataCb;
+    this.loadingProgressCb = loadingProgressCb;
+    this.finishedCb = finishedCb;
+    this.config = config;
 
-      splitted[0] = lastUnhandledChunkPart.concat(splitted[0]);
-      lastUnhandledChunkPart = splitted[splitted.length - 1];
+    this.readNextChunk = this.readNextChunk.bind(this);
+    this.readLastChunk = this.readLastChunk.bind(this);
+  }
 
-      for (let i = 0; i < splitted.length - 1; i++) {
-        const item = splitted[i].split(",");
+  readToEnd(file, dataCb, loadingProgressCb, finishedCb, config) {
+    const blob = file.slice(this.offset, chunkSize + this.offset);
+
+    let i = 0;
+    const load = () => {
+      if (this.FILE_SIZE - i > chunkSize) {
+        fileReader.onload = this.readNextChunk;
+        fileReader.onloadend = load;
+        i += chunkSize
+      } else {
+        fileReader.onload = this.readLastChunk;
+        fileReader.onloadend = null;
       }
-      loadingProgressCb(offset / fileSize * 100);
-    } else {
+      fileReader.readAsText(blob);
+    }
+    load();
+  }
+
+  readNextChunk(evt) {
+    if (evt.target.error !== null) {
       console.error(`Read error: ${evt.target.error}`);
-      dataCb(null, new Error(`Read error: ${evt.target.error}`));
+      this.dataCb(null, new Error(`Read error: ${evt.target.error}`));
       return;
     }
-    if (offset >= fileSize) {
-      loadingProgressCb(100);
-      finishedCb();
-      return;
-    }
+    debugger;
+    this.offset += evt.target.result.length;
+    const splitted = this.lastUnhandledChunkPart
+      .concat(evt.target.result)
+      .split(this.config.splitBy);
 
-    chunkReaderBlock(offset, file);
-  };
+    this.lastUnhandledChunkPart = splitted.pop();
 
-  chunkReaderBlock = (_offset, _file) => {
-    const blob = _file.slice(_offset, this.chunkSize + _offset);
-    this.fileReader.onload = readEventHandler;
-    this.fileReader.readAsText(blob);
-  };
+    splitted.forEach(d => {
+     this.dataCb(d);
+    });
+    this.loadingProgressCb(this.offset / this.FILE_SIZE * 100);
+  }
 
-  chunkReaderBlock(offset, file);
+  readLastChunk(evt) {
+    const splitted = this.lastUnhandledChunkPart
+    .concat(evt.target.result)
+    .split(this.config.splitBy);
+
+    splitted.push(this.lastUnhandledChunkPart);
+    splitted.forEach(d => this.dataCb(d));
+    this.loadingProgressCb(100);
+    this.finishedCb();
+  }
 }
