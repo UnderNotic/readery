@@ -75,7 +75,6 @@ class OffsetChunkReaderHandler {
       .concat(evt.target.result)
       .split(this.config.splitBy);
 
-    splitted.push(this.lastUnhandledChunkPart);
     splitted.forEach(d => this.dataCb(d));
     this.loadingProgressCb(100);
     this.finishedCb();
