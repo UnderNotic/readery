@@ -45,7 +45,7 @@ class OffsetChunkReaderHandler {
         fileReader.onload = this.readLastChunk;
         fileReader.onloadend = null;
       }
-      const blob = file.slice(this.offset, chunkSize + this.offset);
+      const blob = file.slice(this.offset, chunkSize + this.offset + 1);
       fileReader.readAsText(blob);
     };
     load();
