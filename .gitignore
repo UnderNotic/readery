@@ -1,3 +1,6 @@
+dist/
+readery-iife.min.js
+
 # Logs
 logs
 *.log
