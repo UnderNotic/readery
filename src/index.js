@@ -1,4 +1,4 @@
-const chunkSize = 10;
+const chunkSize = process.env.CHUNK_SIZE || 256 * 1024;
 const fileReader = new FileReader();
 
 export function readFromFile(
@@ -6,7 +6,7 @@ export function readFromFile(
   dataCb,
   loadingProgressCb = () => {},
   finishedCb = () => {},
-  config = { splitBy: /[\r?\n]+/, encoding: "UTF-8" }
+  config = { splitBy: /\r?\n/, encoding: "UTF-8" }
 ) {
   const fileSize = file.size;
   const chunkReader = new OffsetChunkReaderHandler(
@@ -45,7 +45,7 @@ class OffsetChunkReaderHandler {
         fileReader.onload = this.readLastChunk;
         fileReader.onloadend = null;
       }
-      const blob = file.slice(this.offset, chunkSize + this.offset + 1);
+      const blob = file.slice(this.offset, chunkSize + this.offset);
       fileReader.readAsText(blob);
     };
     load();
@@ -58,12 +58,13 @@ class OffsetChunkReaderHandler {
       return;
     }
     this.offset += evt.target.result.length;
+
     const splitted = this.lastUnhandledChunkPart
       .concat(evt.target.result)
       .split(this.config.splitBy);
 
     this.lastUnhandledChunkPart = splitted.pop();
-  
+
     splitted.forEach(d => {
       this.dataCb(d);
     });
