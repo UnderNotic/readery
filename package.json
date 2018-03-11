@@ -7,7 +7,7 @@
     "build-test": "cross-env NODE_ENV=test rollup --config rollup.config.iife.js && cp ./dist/readery-iife.min.js ./src/tests/",
     "build-iife": "rollup --config rollup.config.iife.js",
     "test:serve": "http-server ./src/tests/",
-    "test": "npm run test:serve | testcafe chrome **/*.test.js"
+    "test": "npm run build-test && npm run test:serve | testcafe chrome **/*.test.js"
   },
   "repository": {
     "type": "git",
