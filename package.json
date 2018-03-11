@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test:serve": "http-server ./src/tests/",
-    "test": "node_modules/testcafe/bin/testcafe.js chrome -app 'npm run test:serve'",
+    "test": "npm run test:serve | testcafe chrome **/*.test.js",
     "build-iife": "rollup --config rollup.config.iife.js && cp ./dist/readery-iife.min.js ./src/tests/"
   },
   "repository": {
