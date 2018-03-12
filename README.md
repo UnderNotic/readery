@@ -1,4 +1,4 @@
-# <img height="250" alt="portfolio_view" src="https://raw.githubusercontent.com/undernotic/draphy/master/img/readery.png">
+# <img height="250" alt="portfolio_view" src="https://raw.githubusercontent.com/undernotic/readery/master/img/readery.png">
 
 [![Build Status](https://travis-ci.org/UnderNotic/readery.svg?branch=master)](https://travis-ci.org/UnderNotic/readery)
 [![BCH compliance](https://bettercodehub.com/edge/badge/UnderNotic/readery?branch=master)](https://bettercodehub.com/)
