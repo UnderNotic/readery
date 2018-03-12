@@ -1,0 +1,19 @@
+
+language: node_js
+node_js:
+- '8'
+script:
+- npm ci
+- npm run build
+- npm run test
+cache:
+  directories:
+    - node_modules
+deploy:
+  provider: npm
+  email: undernotic@gmail.com
+  api_key:
+    secure: SSl7Jwa6O8IYFySev/m3hL+/JUB5uLutLdBI0T4guWUO+57bKS5V5olXR+wC7R+3CBUl/cp+T/K7fj1x2ZO6ezyxOcuprc/L9QU3SSZiGKnO+jdaiQ/2RitvH3lEDPgSGhg7eNxcMAuZkTsKMOcFlDp7EdL27aIEzp9cyMVpt7s5yKYWWbNNU6pt4QDJyYjWyrJtfqP2Q4LiKs8R6FIOomfL1NqABYhVs5xinoL6GeP+i/Efu2bmeng3FE5sU4FmwzTiw2QAcrkFcaj7HC9hBjYIfm1GwJvHg6Mpu1zD/6d5HSUmCVQWjUTcg9mXZk6C7P/Br+XUbUyEv64z0+Vj0Njzbsk7xnT7uyPGxs7NJ3iV39KAbpw1b3b6/4PzEIUvvNY15pvQLG4b3xPR6p1qyJ/wRKSAfkcPZx3JtWVoVI2J6eOpyuJYhU8u2niC63V/CwuLK9sgiYe4ZQAlA5CZiJmAqVtiPQYQFTASU2WXwIe+3RrlWKOPPuzY9XU0NCB2cVPhydXb2nTkluD127Kq0S6IsF+v4VJOKIxaEM5s8BpHKCvjaNzN1mS43MJqsAEpENL6qHJSgvI/xmhnFfU7UbiEKIFwKUl7T7b1M0RuFGkCWV3QP9otU1X1xvTMWfwP/cwTPj8eOwIHCdColr6hMZPjufoVBa+FC0DLVjvgLzI=
+  on:
+    tags: true
+    repo: UnderNotic/readery
