@@ -56,7 +56,7 @@ test("Should trigger finished callback", async t => {
 test("Should split large files correctly", async t => {
   await t
   .setFilesToUpload("#file-input", "./large_file.txt");
-  await t.wait(10000);
+  await t.wait(20000);
   var children = await Selector("#file_output").child();
   var count = await Selector("#file_output").childElementCount;
   await t.expect(count).eql(1408);  
