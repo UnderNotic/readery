@@ -37,13 +37,29 @@ test("Should split correctly with default new line split", async t => {
     await t.expect(count).eql(16);
 });
 
-test("Should split fast large files", async t => {
+test("Should trigger progress callback correctly", async t => {
+  await t
+  .setFilesToUpload("#file-input", "./test_file.txt");
+
+  const { log } = await t.getBrowserConsoleMessages();
+  log.pop();
+  await t.expect(log.every(l => l.startsWith("Progress")));
+  await t.expect(parseFloat(log[0].replace("Progress: ", ""))).lt(parseFloat(log[1].replace("Progress: ", "")));
+});
+
+test("Should trigger finished callback", async t => {
+  await t.setFilesToUpload("#file-input", "./test_file.txt");
+  const { log, info } = await t.getBrowserConsoleMessages();
+  await t.expect(log[log.length - 1]).eql("finished");
+});
+
+test("Should split large files correctly", async t => {
   await t
   .setFilesToUpload("#file-input", "./large_file.txt");
   await t.wait(5000);
   var children = await Selector("#file_output").child();
   var count = await Selector("#file_output").childElementCount;
-  await t.expect(count).eql(4923);  
+  await t.expect(count).eql(1408);  
 });
 
 test("Should split correctly with custom split string", async t => {

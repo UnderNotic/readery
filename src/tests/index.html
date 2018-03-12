@@ -24,7 +24,7 @@
                 div.appendChild(document.createTextNode(d));
                 fileOutput.appendChild(div);
             }
-                , p => { }, () => console.timeEnd("perf"));
+                , p => { console.log("Progress: " + p) }, () => { console.timeEnd("perf"); console.log("finished") });
         }
         document.getElementById('file-input').addEventListener('change', handleFileSelect, false);
     </script>
