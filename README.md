@@ -42,6 +42,8 @@ readFromFile(readFromFile(
   config = { splitBy: /\r?\n/, encoding: "UTF-8" }
 )
 ```
+If splitBy is undefined then there is no splitting.
+
 
 # Example usage
 ```html
