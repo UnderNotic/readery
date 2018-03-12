@@ -9,10 +9,10 @@
     "build:umd": "rollup --config rollup.config.umd.js",
     "build:iife": "rollup --config rollup.config.iife.js",
     "test:serve": "http-server ./src/tests/",
-    "test": "npm run test:build && npm run test:serve | testcafe chrome **/*.test.js",
-    "test:travisci": "npm run test:build && npm run test:serve | (npm run test:travisci:chrome && npm run test:travisci:firefox)",
-    "test:travisci:chrome": "testcafe \"saucelabs:Chrome@beta:Windows 10\" **/*.test.js",
-    "test:travisci:firefox": "testcafe \"saucelabs:Firefox:Linux\" **/*.test.js"
+    "test": "npm run test:build && testcafe chrome **/*.test.js --app 'npm run test:serve'",
+    "test:travisci": "npm run test:build && npm run test:travisci:chrome && npm run test:travisci:firefox)",
+    "test:travisci:chrome": "testcafe \"saucelabs:Chrome@beta:Windows 10\" **/*.test.js --app 'npm run test:serve'",
+    "test:travisci:firefox": "testcafe \"saucelabs:Firefox:Linux\" **/*.test.js --app 'npm run test:serve'"
   },
   "repository": {
     "type": "git",
