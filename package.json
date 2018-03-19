@@ -25,7 +25,11 @@
     "chunks",
     "browser"
   ],
-  "author": "undernotic",
+  "author": {
+    "name": "Piotr Szymura",
+    "email": "undernotic@gmail.com",
+    "url": "https://deaddesk.top/"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/UnderNotic/readery/issues"
