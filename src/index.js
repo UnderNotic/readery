@@ -1,7 +1,7 @@
 const chunkSize = process.env.CHUNK_SIZE || 256 * 1024;
 const fileReader = new FileReader();
 
-export function readFromFile(
+function readFromFile(
   file,
   dataCb,
   loadingProgressCb = () => {},
@@ -17,6 +17,10 @@ export function readFromFile(
     config
   );
   chunkReader.readToEnd(file, dataCb, loadingProgressCb, finishedCb, config);
+}
+
+export default {
+  readFromFile
 }
 
 class OffsetChunkReaderHandler {

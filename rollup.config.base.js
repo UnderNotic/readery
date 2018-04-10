@@ -1,5 +1,4 @@
 import replace from "rollup-plugin-replace";
-import uglify from "rollup-plugin-uglify";
 import { name } from "./package.json";
 import babel from "rollup-plugin-babel";
 
