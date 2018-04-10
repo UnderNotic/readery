@@ -9,15 +9,14 @@ export default (type) => ({
     file: `dist/${name}-${type}.min.js`,
     name,
     format: type,
-    sourcemap: "inline"
+    sourcemap: true
   },
   plugins: [
-    uglify(),
-    babel({
-      exclude: "node_modules/**"
-    }),
     replace({
       "process.env.CHUNK_SIZE": process.env.NODE_ENV === 'test' ? JSON.stringify(9) : 256 * 1024
+    }),
+    babel({
+      exclude: "node_modules/**"
     })
   ]
 });
