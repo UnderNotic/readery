@@ -1,4 +1,4 @@
-const chunkSize = process.env.CHUNK_SIZE || 256 * 1024;
+const defaultChunkSize = process.env.CHUNK_SIZE || 256 * 1024;
 const fileReader = new FileReader();
 
 function readFromFile(
@@ -6,7 +6,8 @@ function readFromFile(
   dataCb,
   loadingProgressCb = () => {},
   finishedCb = () => {},
-  config = { splitBy: /\r?\n/, encoding: "UTF-8" }
+  config = { splitBy: /\r?\n/, encoding: "UTF-8" },
+  chunkSize = defaultChunkSize
 ) {
   const fileSize = file.size;
   const chunkReader = new OffsetChunkReaderHandler(
@@ -16,7 +17,7 @@ function readFromFile(
     finishedCb,
     config
   );
-  chunkReader.readToEnd(file, dataCb, loadingProgressCb, finishedCb, config);
+  chunkReader.readToEnd(file, dataCb, loadingProgressCb, finishedCb, config, chunkSize);
 }
 
 export default {
@@ -38,7 +39,7 @@ class OffsetChunkReaderHandler {
     this.readLastChunk = this.readLastChunk.bind(this);
   }
 
-  readToEnd(file, dataCb, loadingProgressCb, finishedCb, config) {
+  readToEnd(file, dataCb, loadingProgressCb, finishedCb, config, chunkSize) {
     let i = 0;
     const load = () => {
       if (this.FILE_SIZE - i > chunkSize) {

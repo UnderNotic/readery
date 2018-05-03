@@ -37,9 +37,10 @@ import {readFromFile} from "readery"
 readFromFile(readFromFile(
   file,
   dataCb,
-  loadingProgressCb = () => {},
+  loadingProgressCb = progress => {},
   finishedCb = () => {},
-  config = { splitBy: /\r?\n/, encoding: "UTF-8" }
+  config = { splitBy: /\r?\n/, encoding: "UTF-8" },
+  chunkSize = 256 * 1024
 )
 ```
 If splitBy is undefined then there is no splitting.
