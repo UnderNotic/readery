@@ -9,6 +9,11 @@ function readFromFile(
   config = { splitBy: /\r?\n/, encoding: "UTF-8" },
   chunkSize = defaultChunkSize
 ) {
+  loadingProgressCb = loadingProgressCb || (() => {});
+  finishedCb = finishedCb || (() => {});
+  config = config || ({ splitBy: /\r?\n/, encoding: "UTF-8" });
+  chunkSize = chunkSize || defaultChunkSize;
+
   const fileSize = file.size;
   const chunkReader = new OffsetChunkReaderHandler(
     fileSize,
