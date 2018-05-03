@@ -1,4 +1,4 @@
-const defaultChunkSize = process.env.CHUNK_SIZE || 256 * 1024;
+const defaultChunkSize = process.env.CHUNK_SIZE || 32 * 1024;
 const fileReader = new FileReader();
 
 function readFromFile(
