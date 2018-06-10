@@ -4,14 +4,14 @@ const fileReader = new FileReader();
 function readFromFile(
   file,
   dataCb,
-  loadingProgressCb = () => {},
-  finishedCb = () => {},
+  loadingProgressCb,
+  finishedCb,
   config = { splitBy: /\r?\n/, encoding: "UTF-8" },
-  chunkSize = defaultChunkSize
+  chunkSize
 ) {
   loadingProgressCb = loadingProgressCb || (() => {});
   finishedCb = finishedCb || (() => {});
-  config = config || ({ splitBy: /\r?\n/, encoding: "UTF-8" });
+  config = { splitBy: config.splitBy || /\r?\n/, encoding: config.encoding || "UTF-8" };
   chunkSize = chunkSize || defaultChunkSize;
 
   const fileSize = file.size;
