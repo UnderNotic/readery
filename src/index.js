@@ -14,6 +14,10 @@ function readFromFile(
   config = { splitBy: config.splitBy || /\r?\n/, encoding: config.encoding || "UTF-8" };
   chunkSize = chunkSize || defaultChunkSize;
 
+  if(!file){
+    return;
+  }
+
   const fileSize = file.size;
   const chunkReader = new OffsetChunkReaderHandler(
     fileSize,
