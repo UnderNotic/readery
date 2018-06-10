@@ -1,5 +1,4 @@
 const defaultChunkSize = process.env.CHUNK_SIZE || 32 * 1024;
-const fileReader = new FileReader();
 
 function readFromFile(
   file,
@@ -11,31 +10,35 @@ function readFromFile(
 ) {
   loadingProgressCb = loadingProgressCb || (() => {});
   finishedCb = finishedCb || (() => {});
-  config = { splitBy: config.splitBy || /\r?\n/, encoding: config.encoding || "UTF-8" };
+  config = {
+    splitBy: config.splitBy || /\r?\n/,
+    encoding: config.encoding || "UTF-8"
+  };
   chunkSize = chunkSize || defaultChunkSize;
 
-  if(!file){
+  if (!file) {
     return;
   }
 
-  const fileSize = file.size;
   const chunkReader = new OffsetChunkReaderHandler(
-    fileSize,
     dataCb,
     loadingProgressCb,
     finishedCb,
     config
   );
-  chunkReader.readToEnd(file, dataCb, loadingProgressCb, finishedCb, config, chunkSize);
+  chunkReader.readToEnd(
+    file,
+    chunkSize
+  );
 }
 
 export default {
   readFromFile
-}
+};
 
 class OffsetChunkReaderHandler {
-  constructor(fileSize, dataCb, loadingProgressCb, finishedCb, config) {
-    this.FILE_SIZE = fileSize;
+  constructor(dataCb, loadingProgressCb, finishedCb, config) {
+    this.fileReader = new FileReader();
     this.offset = 0;
     this.lastUnhandledChunkPart = "";
 
@@ -48,19 +51,21 @@ class OffsetChunkReaderHandler {
     this.readLastChunk = this.readLastChunk.bind(this);
   }
 
-  readToEnd(file, dataCb, loadingProgressCb, finishedCb, config, chunkSize) {
+  readToEnd(file, chunkSize) {
+    this.FILE_SIZE = file.size;
+
     let i = 0;
     const load = () => {
       if (this.FILE_SIZE - i > chunkSize) {
-        fileReader.onload = this.readNextChunk;
-        fileReader.onloadend = load;
+        this.fileReader.onload = this.readNextChunk;
+        this.fileReader.onloadend = load;
         i += chunkSize;
       } else {
-        fileReader.onload = this.readLastChunk;
-        fileReader.onloadend = null;
+        this.fileReader.onload = this.readLastChunk;
+        this.fileReader.onloadend = null;
       }
       const blob = file.slice(this.offset, chunkSize + this.offset);
-      fileReader.readAsText(blob);
+      this.fileReader.readAsText(blob);
     };
     load();
   }
@@ -82,7 +87,7 @@ class OffsetChunkReaderHandler {
     splitted.forEach(d => {
       this.dataCb(d);
     });
-    this.loadingProgressCb(this.offset / this.FILE_SIZE * 100);
+    this.loadingProgressCb((this.offset / this.FILE_SIZE) * 100);
   }
 
   readLastChunk(evt) {
