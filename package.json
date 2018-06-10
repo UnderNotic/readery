@@ -1,6 +1,6 @@
 {
   "name": "readery",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Big file loader in chunks for browser",
   "main": "dist/readery-umd.min.js",
   "scripts": {
