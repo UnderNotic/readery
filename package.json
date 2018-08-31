@@ -1,6 +1,6 @@
 {
   "name": "readery",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Big file loader in chunks for browser",
   "main": "dist/readery.es.js",
   "module": "dist/readery.es.js",
