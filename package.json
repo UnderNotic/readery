@@ -16,7 +16,7 @@
     "test:travisci": "npm run test:build && npm run test:travisci:chrome && npm run test:travisci:firefox",
     "test:travisci:chrome": "testcafe \"saucelabs:Chrome@beta:Windows 10\" **/*.test.js --app 'npm run test:serve'",
     "test:travisci:firefox": "testcafe \"saucelabs:Firefox:Linux\" **/*.test.js --app 'npm run test:serve'",
-    "prepublish": "npm run build"
+    "publish": "np"
   },
   "repository": {
     "type": "git",
@@ -41,14 +41,15 @@
   "homepage": "https://github.com/UnderNotic/readery#readme",
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
-    "cross-env": "^5.1.4",
+    "cross-env": "^5.2.0",
     "http-server": "^0.11.1",
-    "rollup": "^0.58.2",
+    "rollup": "^0.65.0",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "testcafe": "^0.19.2",
-    "testcafe-browser-provider-saucelabs": "^1.3.1"
+    "testcafe": "^0.21.1",
+    "testcafe-browser-provider-saucelabs": "^1.3.1",
+    "np": "^3.0.4"
   },
   "files": [
     "dist"
