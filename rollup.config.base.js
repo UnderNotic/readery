@@ -13,7 +13,7 @@ export default (type, minify = false) => ({
   },
   plugins: [
     replace({
-      "process.env.CHUNK_SIZE": process.env.NODE_ENV === 'test' ? JSON.stringify(9) : 256 * 1024
+      "process.env.CHUNK_SIZE": process.env.NODE_ENV === 'test' ? JSON.stringify(9) : 64 * 1024
     }),
     babel({
       exclude: "node_modules/**"

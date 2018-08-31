@@ -1,5 +1,4 @@
 const defaultChunkSize = process.env.CHUNK_SIZE || 32 * 1024;
-
 function readFromFile(
   file,
   dataCb,
@@ -11,8 +10,8 @@ function readFromFile(
   loadingProgressCb = loadingProgressCb || (() => {});
   finishedCb = finishedCb || (() => {});
   config = {
-    splitBy: config.splitBy || /\r?\n/,
-    encoding: config.encoding || "UTF-8"
+    splitBy: (config || {}).splitBy || /\r?\n/,
+    encoding: (config || {}).encoding || "UTF-8"
   };
   chunkSize = chunkSize || defaultChunkSize;
 

@@ -1,5 +1,6 @@
 dist/
-readery.iife.min.js
+readery.iife.js
+readery.iife.js.map
 
 # Logs
 logs
