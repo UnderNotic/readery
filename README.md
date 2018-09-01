@@ -13,7 +13,7 @@ Big file loader in chunks for browser
 # Installing
 
 Package is available in npm. 
-It's in umd,es and iife format so it will work correctly with all popular bundlers(webpack) and also nodejs.
+It's in cjs,es and iife format so it will work correctly with all popular bundlers(webpack) and also nodejs.
 
 ```bash
 npm install readery --save

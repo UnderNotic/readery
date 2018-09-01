@@ -1,3 +1,3 @@
 import base from "./rollup.config.base";
 
-export default base("umd");
+export default base("cjs");
